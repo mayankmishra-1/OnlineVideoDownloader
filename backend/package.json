@@ -1,0 +1,17 @@
+{
+  "name": "onlinevideoconverter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon backend/server.js"
+  },
+  "author": "Mayank",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4",
+    "ytdl-core": "^4.11.5"
+  }
+}
