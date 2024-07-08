@@ -3,6 +3,8 @@ import routes from './routes/routes.js'
 
 const app=express();
 
+app.use(express.json());
+
 app.get('/',(req,res)=>{
     res.send('Server started on port 8000')
 })

@@ -1,9 +1,10 @@
 import express from 'express';
-import { youtubeDownloader } from "../controllers/downloadController.js";
+import { getFormats, youtubeDownloader } from "../controllers/downloadController.js";
 
 const app=express();
 const router=express.Router();
 
-router.route('/youtubeDownloader').get(youtubeDownloader);
+router.route('/youtubeDownloader').post(youtubeDownloader);
+router.route('/getFormats').get(getFormats)
 
 export default router

@@ -6,9 +6,11 @@ const app=express();
 
 
 const getFormats = async (req, res) => {
-  const videoUrl = req.query.url;
+//   const videoUrl = req.query.url;
+  const {videoUrl}=req.body;
   try {
     const info = await ytdl.getInfo(videoUrl);
+    console.log(info.formats);
     const formats = info.formats.map((format) => ({
       qualityLabel: format.qualityLabel,
       format: format.itag,
@@ -53,4 +55,4 @@ const youtubeDownloader=((req, res) => {
 //         res.send("Downloaded!");
 //       });
 // })
-export {youtubeDownloader}
+export {getFormats, youtubeDownloader}
