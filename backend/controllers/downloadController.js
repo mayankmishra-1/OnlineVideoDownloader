@@ -23,21 +23,46 @@ const getFormats = async (req, res) => {
   }
 };
 
+//api to download to server first then send
+// const youtubeDownloader=((req, res) => {
+//   const { url, format } = req.body;
+//   const outputFilePath = "video.mp4";
 
-const youtubeDownloader=((req, res) => {
+//   ytdl(url, { quality: format })
+//     .on("error", (err) => {
+//       console.error("Error downloading video:", err);
+//       res.status(500).send("Error downloading video");
+//     })
+//     .pipe(fs.createWriteStream(outputFilePath))
+//     .on("finish", () => {
+//       res.download(outputFilePath);
+//     });
+// });
+
+const youtubeDownloader = async (req, res) => {
   const { url, format } = req.body;
-  const outputFilePath = "video.mp4";
+  console.log(format);
+  const sanitizeFilename = (name) => {
+    return name.replace(/[^a-zA-Z0-9-_ .]/g, "_");
+  };
 
-  ytdl(url, { quality: format })
-    .on("error", (err) => {
-      console.error("Error downloading video:", err);
-      res.status(500).send("Error downloading video");
-    })
-    .pipe(fs.createWriteStream(outputFilePath))
-    .on("finish", () => {
-      res.download(outputFilePath);
-    });
-});
+  try {
+    const videoInfo=await ytdl.getInfo(url);
+    const videoTitle=sanitizeFilename(videoInfo.videoDetails.title);
+    console.log(videoTitle);
+
+    res.header(
+      "Content-Disposition",
+      `attachment; filename="${videoTitle}"`
+    );
+    ytdl(url, { quality: format }).pipe(res);
+    console.log("Content-Disposition",
+      `attachment; filename="${videoTitle}.${format}"`)
+  } catch (error) {
+    console.error("Error downloading video:", error);
+    res.status(500).send("Error downloading video");
+  }
+};
 
 // const videoUrl ="https://www.youtube.com/watch?v=weIrv6WbIec&list=PLTtZ8XLMT18H7aPMXMgGCSutVk_m2fgLC&index=5";
 // const outputFilePath='Video.mp4'

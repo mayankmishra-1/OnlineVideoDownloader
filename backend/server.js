@@ -5,7 +5,11 @@ import cors from 'cors'
 const app=express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    exposedHeaders: ["Content-Disposition"],
+  })
+);
 
 app.get('/',(req,res)=>{
     res.send('Server started on port 8000')
