@@ -10,6 +10,7 @@
   "author": "Mayank",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "nodemon": "^3.1.4",
     "ytdl-core": "^4.11.5"
