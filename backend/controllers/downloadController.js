@@ -1,9 +1,8 @@
-import express from 'express';
-import fs from 'fs';
-import ytdl from 'ytdl-core'
+import express from "express";
+import fs from "fs";
+import ytdl from "ytdl-core";
 
-const app=express();
-
+const app = express();
 
 const getFormats = async (req, res) => {
   const videoUrl = req.query.url;
@@ -47,20 +46,21 @@ const youtubeDownloader = async (req, res) => {
   };
 
   try {
-    const videoInfo=await ytdl.getInfo(url);
-    const videoTitle=sanitizeFilename(videoInfo.videoDetails.title);
+    const videoInfo = await ytdl.getInfo(url);
+    const videoTitle = sanitizeFilename(videoInfo.videoDetails.title);
     console.log(videoTitle);
-    const fileExtension='mp4'
+    const fileExtension = "mp4";
 
-    res.header(
-      "Content-Disposition",
-      `attachment; filename="${videoTitle}"`
-    );
-    ytdl(url, { quality: format }).on("error", (err) => {
+    res.header("Content-Disposition", `attachment; filename="${videoTitle}"`);
+    ytdl(url, { quality: format })
+      .on("error", (err) => {
         console.error("Error downloading video:", err);
-      }).pipe(res);
-    console.log("Content-Disposition",
-      `attachment; filename="${videoTitle}.${fileExtension}"`)
+      })
+      .pipe(res);
+    console.log(
+      "Content-Disposition",
+      `attachment; filename="${videoTitle}.${fileExtension}"`
+    );
   } catch (error) {
     console.error("Error downloading video:", error);
     res.status(500).send("Error downloading video");
@@ -83,4 +83,4 @@ const youtubeDownloader = async (req, res) => {
 //         res.send("Downloaded!");
 //       });
 // })
-export {getFormats, youtubeDownloader}
+export { getFormats, youtubeDownloader };
