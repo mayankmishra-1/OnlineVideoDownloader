@@ -41,7 +41,7 @@ const getFormats = async (req, res) => {
 
 const youtubeDownloader = async (req, res) => {
   const { url, format } = req.body;
-  console.log(format);
+  // console.log(format);
   const sanitizeFilename = (name) => {
     return name.replace(/[^a-zA-Z0-9-_ .]/g, "_");
   };
@@ -50,14 +50,17 @@ const youtubeDownloader = async (req, res) => {
     const videoInfo=await ytdl.getInfo(url);
     const videoTitle=sanitizeFilename(videoInfo.videoDetails.title);
     console.log(videoTitle);
+    const fileExtension='mp4'
 
     res.header(
       "Content-Disposition",
       `attachment; filename="${videoTitle}"`
     );
-    ytdl(url, { quality: format }).pipe(res);
+    ytdl(url, { quality: format }).on("error", (err) => {
+        console.error("Error downloading video:", err);
+      }).pipe(res);
     console.log("Content-Disposition",
-      `attachment; filename="${videoTitle}.${format}"`)
+      `attachment; filename="${videoTitle}.${fileExtension}"`)
   } catch (error) {
     console.error("Error downloading video:", error);
     res.status(500).send("Error downloading video");
