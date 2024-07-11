@@ -1,16 +1,8 @@
+/* General styles */
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  font-size: calc(10px + 1.5vmin);
+  /* Responsive font size */
 }
 
 .App-header {
@@ -20,44 +12,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 1vmin);
+  /* Responsive font size */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .app-container {
-  max-width: 600px;
+  max-width: 800px;
+  /* Adjusted for a wider container */
+  width: 90%;
+  /* Responsive width */
   margin: 0 auto;
   padding: 20px;
   text-align: center;
   font-family: Arial, sans-serif;
 }
 
-.video-downloader {
-  margin-top: 20px;
-}
-
 .input-url {
   width: 100%;
+  max-width: 300px;
+  /* Responsive input width */
   padding: 10px;
   margin: 10px 0;
   font-size: 16px;
 }
 
+/* Button styles */
 .btn-primary,
-.btn-success {
+.btn-success,
+.btn-download {
   padding: 10px 20px;
   font-size: 16px;
   margin: 10px 5px;
@@ -83,6 +66,15 @@
   background-color: #218838;
 }
 
+.btn-download {
+  background-color: #28a745;
+}
+
+.btn-download:hover {
+  background-color: #218838;
+}
+
+/* Dropdown styles */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -124,4 +116,49 @@
 
 .dropdown:hover .dropbtn {
   background-color: #0056b3;
+}
+
+/* Header styles */
+.header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+/* Format list styles */
+.format-list {
+  margin-top: 20px;
+}
+
+.format-item {
+  margin-bottom: 10px;
+  /* Adjust margin for spacing between items */
+}
+
+.format-item h3 {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  /* Adjust margin for spacing below heading */
+}
+
+.format-item p {
+  margin-bottom: 5px;
+  /* Adjust margin for spacing between details */
+}
+
+/* Animation */
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

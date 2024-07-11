@@ -15,6 +15,9 @@ const getFormats = async (req, res) => {
       format: format.itag,
       container: format.container,
       type: format.mimeType,
+      size: format.contentLength
+        ? (format.contentLength / (1024 * 1024)).toFixed(2) + " MB"
+        : "N/A",
     }));
     res.json(formats);
   } catch (error) {
