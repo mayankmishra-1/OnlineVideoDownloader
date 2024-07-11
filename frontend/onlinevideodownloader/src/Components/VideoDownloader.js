@@ -43,7 +43,7 @@ const VideoDownloader = () => {
         "http://localhost:8000/youtubeDownloader",
         {
           url: videoUrl,
-          format: format,
+          format: format.format,
         },
         { responseType: "blob" }
       );

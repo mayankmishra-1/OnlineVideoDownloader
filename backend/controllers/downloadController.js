@@ -45,7 +45,7 @@ const getFormats = async (req, res) => {
 
 const youtubeDownloader = async (req, res) => {
   const { url, format } = req.body;
-  // console.log(format);
+  console.log(format);
   const sanitizeFilename = (name) => {
     return name.replace(/[^a-zA-Z0-9-_ .]/g, "_");
   };
