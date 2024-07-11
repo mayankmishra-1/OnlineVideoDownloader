@@ -2,35 +2,19 @@ import React, { useState } from "react";
 import axios from "axios";
 import FormatSelector from "./FormatSelector";
 
-const VideoDownloader = () => {
+const InstagramReelsDownloader = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [formats, setFormats] = useState([]);
-  const [thumbnail, setThumbnail] = useState("");
-  const [title, setTitle] = useState("");
 
   const handleGetFormats = async () => {
     try {
+      // Implement logic to fetch Instagram reels formats
       const response = await axios.get(
-        `http://localhost:8000/getFormats?url=${encodeURIComponent(videoUrl)}`
+        `http://localhost:8000/instagram/getFormats?url=${encodeURIComponent(
+          videoUrl
+        )}`
       );
-
-      const { formats, thumbnail, title } = response.data;
-
-      const mp4Formats = formats.filter((format) => format.container === "mp4");
-
-      const seenQualities = new Set();
-      const uniqueMp4Formats = mp4Formats.filter((format) => {
-        if (seenQualities.has(format.qualityLabel)) {
-          return false;
-        } else {
-          seenQualities.add(format.qualityLabel);
-          return true;
-        }
-      });
-
-      setFormats(uniqueMp4Formats);
-      setThumbnail(thumbnail);
-      setTitle(title);
+      setFormats(response.data.formats);
     } catch (error) {
       console.error("Error fetching formats:", error);
       alert("Error fetching formats");
@@ -39,16 +23,16 @@ const VideoDownloader = () => {
 
   const handleDownloadVideo = async (format) => {
     try {
+      // Implement logic to download Instagram reel
       const response = await axios.post(
-        "http://localhost:8000/youtubeDownloader",
+        "http://localhost:8000/instagram/download",
         {
           url: videoUrl,
           format: format,
         },
         { responseType: "blob" }
       );
-
-      // Handle file download here
+      // Handle download logic
     } catch (error) {
       console.error("Error downloading video:", error);
       alert("Error downloading video");
@@ -56,11 +40,11 @@ const VideoDownloader = () => {
   };
 
   return (
-    <div className="video-downloader">
-      <h1>YouTube Downloader</h1>
+    <div className="instagram-reels-downloader">
+      <h1>Instagram Reels Downloader</h1>
       <input
         type="text"
-        placeholder="Enter YouTube URL"
+        placeholder="Enter Instagram Reels URL"
         value={videoUrl}
         onChange={(e) => setVideoUrl(e.target.value)}
         className="input-url"
@@ -73,12 +57,10 @@ const VideoDownloader = () => {
         <FormatSelector
           formats={formats}
           onSelectFormat={handleDownloadVideo}
-          thumbnail={thumbnail}
-          title={title}
         />
       )}
     </div>
   );
 };
 
-export default VideoDownloader;
+export default InstagramReelsDownloader;

@@ -6,7 +6,7 @@ const app = express();
 
 const getFormats = async (req, res) => {
   const videoUrl = req.query.url;
-  // const {videoUrl}=req.body;
+  // console.log(videoUrl);
   try {
     const info = await ytdl.getInfo(videoUrl);
     // console.log(info.formats);
@@ -19,7 +19,9 @@ const getFormats = async (req, res) => {
         ? (format.contentLength / (1024 * 1024)).toFixed(2) + " MB"
         : "N/A",
     }));
-    res.json(formats);
+    const thumbnail = info.videoDetails.thumbnails[1].url;
+    const title = info.videoDetails.title;
+    res.json({formats, thumbnail, title});
   } catch (error) {
     res.status(500).send("Error fetching formats");
   }

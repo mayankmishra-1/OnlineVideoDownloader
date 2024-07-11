@@ -1,12 +1,13 @@
-import react from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Header = (props) => {
+const Header = ({ title, activeDownloader }) => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          {props.title}
-        </a>
+        <Link className="navbar-brand" to="/">
+          {title}
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -21,14 +22,34 @@ const Header = (props) => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <Link
+                to="/"
+                className={`nav-link ${
+                  activeDownloader === "youtube" ? "active" : ""
+                }`}
+              >
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Link
-              </a>
+              <Link
+                to="/youtube"
+                className={`nav-link ${
+                  activeDownloader === "youtube" ? "active" : ""
+                }`}
+              >
+                Download YouTube Video
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/instagram"
+                className={`nav-link ${
+                  activeDownloader === "instagram" ? "active" : ""
+                }`}
+              >
+                Download Instagram Reels
+              </Link>
             </li>
           </ul>
           <form className="d-flex" role="search">

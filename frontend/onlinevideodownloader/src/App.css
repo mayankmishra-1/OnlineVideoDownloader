@@ -1,7 +1,7 @@
-/* General styles */
+/* Global styles */
 .App {
   text-align: center;
-  font-size: calc(10px + 1.5vmin);
+  font-size: 1rem;
   /* Responsive font size */
 }
 
@@ -12,14 +12,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 1vmin);
-  /* Responsive font size */
   color: white;
 }
 
 .app-container {
   max-width: 800px;
-  /* Adjusted for a wider container */
   width: 90%;
   /* Responsive width */
   margin: 0 auto;
@@ -34,7 +31,7 @@
   /* Responsive input width */
   padding: 10px;
   margin: 10px 0;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 /* Button styles */
@@ -42,7 +39,7 @@
 .btn-success,
 .btn-download {
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1rem;
   margin: 10px 5px;
   cursor: pointer;
   border: none;
@@ -83,7 +80,7 @@
 
 .dropbtn {
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   border: none;
   background-color: #007bff;
@@ -131,19 +128,37 @@
 }
 
 .format-item {
-  margin-bottom: 10px;
-  /* Adjust margin for spacing between items */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .format-item h3 {
-  font-size: 1.2em;
-  margin-bottom: 5px;
-  /* Adjust margin for spacing below heading */
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
 }
 
 .format-item p {
   margin-bottom: 5px;
-  /* Adjust margin for spacing between details */
+  color: #666;
+}
+
+.format-item .btn-download {
+  background-color: #1abe1a;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.format-item .btn-download:hover {
+  background-color: #107c19;
 }
 
 /* Animation */
