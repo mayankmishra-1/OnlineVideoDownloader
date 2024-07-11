@@ -38,7 +38,7 @@ const Header = ({ title, activeDownloader }) => {
                   activeDownloader === "youtube" ? "active" : ""
                 }`}
               >
-                Download YouTube Video
+                Download YouTube Video & Shorts
               </Link>
             </li>
             <li className="nav-item">
