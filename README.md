@@ -1,4 +1,4 @@
-StreamScribe
+#StreamScribe
 StreamScribe is a web application built with the MERN stack that allows users to download videos from YouTube and Instagram.
 
 Features:
