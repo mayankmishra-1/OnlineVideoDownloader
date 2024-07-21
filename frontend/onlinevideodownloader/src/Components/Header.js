@@ -23,16 +23,6 @@ const Header = ({ title, activeDownloader }) => {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link
-                to="/"
-                className={`nav-link ${
-                  activeDownloader === "youtube" ? "active" : ""
-                }`}
-              >
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
                 to="/youtube"
                 className={`nav-link ${
                   activeDownloader === "youtube" ? "active" : ""

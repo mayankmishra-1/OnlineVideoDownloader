@@ -1,6 +1,10 @@
 import express from "express";
 import fs from "fs";
 import ytdl from "ytdl-core";
+import instaFetcher from "insta-fetcher";
+import axios from "axios";
+import cheerio from "cheerio";
+
 
 const app = express();
 
@@ -60,6 +64,7 @@ const youtubeDownloader = async (req, res) => {
     ytdl(url, { quality: format })
       .on("error", (err) => {
         console.error("Error downloading video:", err);
+        res.status(500).send("Authorization Declined by YouTube")
       })
       .pipe(res);
     console.log(
@@ -88,4 +93,38 @@ const youtubeDownloader = async (req, res) => {
 //         res.send("Downloaded!");
 //       });
 // })
-export { getFormats, youtubeDownloader };
+
+const getInstagramFormats = async (req, res) => {
+  const reelUrl = req.query.url;
+  console.log(reelUrl);
+
+  try {
+    const response = await axios.get(reelUrl);
+    const html = response.data;
+    const $ = cheerio.load(html);
+    const videoUrl = $("meta[property='og:video']").attr("content");
+
+    if (!videoUrl) {
+      throw new Error("Video URL not found");
+    }
+
+    res.json({ videoUrl });
+  } catch (error) {
+    console.error("Error fetching Instagram Reel URL:", error);
+    res.status(500).send("Error fetching Instagram Reel URL");
+  }
+};
+
+const downloadInstagramReel = async (req, res) => {
+  const { url } = req.body;
+  try {
+    res.header("Content-Disposition", `attachment; filename="reel.mp4"`);
+    const response = await axios.get(url, { responseType: "stream" });
+    response.data.pipe(res);
+  } catch (error) {
+    console.error("Error downloading Instagram Reel:", error);
+    res.status(500).send("Error downloading Instagram Reel");
+  }
+};
+
+export { getFormats, youtubeDownloader, getInstagramFormats, downloadInstagramReel };
