@@ -9,6 +9,9 @@ const VideoDownloader = () => {
   const [title, setTitle] = useState("");
 
   const handleGetFormats = async () => {
+    if (!videoUrl) {
+      alert("Please enter a link");
+    }
     try {
       const response = await axios.get(
         `http://localhost:8000/getFormats?url=${encodeURIComponent(videoUrl)}`
@@ -37,6 +40,24 @@ const VideoDownloader = () => {
     }
   };
 
+  //hadnle video before status check
+  // const handleDownloadVideo = async (format) => {
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/youtubeDownloader",
+  //       {
+  //         url: videoUrl,
+  //         format: format.format,
+  //       },
+  //       { responseType: "blob" }
+  //     );
+
+  //     // Handle file download here
+  //   } catch (error) {
+  //     console.error("Error downloading video:", error);
+  //     alert("Error downloading video");
+  //   }
+  // };
   const handleDownloadVideo = async (format) => {
     try {
       const response = await axios.post(
@@ -45,15 +66,38 @@ const VideoDownloader = () => {
           url: videoUrl,
           format: format.format,
         },
-        { responseType: "blob" }
+        { responseType: "blob", headers: { Accept: "application/json" } }
       );
 
-      // Handle file download here
+      // Extract filename from Content-Disposition header
+      const disposition = response.headers["content-disposition"];
+      const filename = disposition
+        ? disposition.split("filename=")[1].replace(/"/g, "")
+        : "video.mp4";
+
+      // Handle file download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (error) {
       console.error("Error downloading video:", error);
-      alert("Error downloading video");
+      if (error.response && error.response.data) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          alert(`Error downloading video: ${reader.result}`);
+        };
+        reader.readAsText(error.response.data);
+      } else {
+        alert("Error downloading video");
+      }
     }
   };
+
+
 
   return (
     <div className="video-downloader">

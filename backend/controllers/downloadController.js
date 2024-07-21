@@ -49,7 +49,8 @@ const getFormats = async (req, res) => {
 
 const youtubeDownloader = async (req, res) => {
   const { url, format } = req.body;
-  console.log(format);
+  console.log("Requested format:", format);
+
   const sanitizeFilename = (name) => {
     return name.replace(/[^a-zA-Z0-9-_ .]/g, "_");
   };
@@ -57,25 +58,38 @@ const youtubeDownloader = async (req, res) => {
   try {
     const videoInfo = await ytdl.getInfo(url);
     const videoTitle = sanitizeFilename(videoInfo.videoDetails.title);
-    console.log(videoTitle);
+    console.log("Video title:", videoTitle);
     const fileExtension = "mp4";
 
-    res.header("Content-Disposition", `attachment; filename="${videoTitle}"`);
-    ytdl(url, { quality: format })
-      .on("error", (err) => {
-        console.error("Error downloading video:", err);
-        res.status(500).send("Authorization Declined by YouTube")
-      })
-      .pipe(res);
-    console.log(
+    res.header(
       "Content-Disposition",
       `attachment; filename="${videoTitle}.${fileExtension}"`
     );
+
+    ytdl(url, { quality: format })
+      .on("response", (response) => {
+        if (response.statusCode !== 200) {
+          res
+            .status(response.statusCode)
+            .send("Authorization Declined by YouTube");
+          console.error("Error downloading video:", response.statusCode);
+        }
+      })
+      .on("error", (err) => {
+        if (!res.headersSent) {
+          res.status(500).send("Authorization Declined by YouTube");
+        }
+        console.error("Error downloading video:", err);
+      })
+      .pipe(res);
   } catch (error) {
     console.error("Error downloading video:", error);
-    res.status(500).send("Error downloading video");
+    if (!res.headersSent) {
+      res.status(500).send("Error downloading video");
+    }
   }
 };
+
 
 // const videoUrl ="https://www.youtube.com/watch?v=weIrv6WbIec&list=PLTtZ8XLMT18H7aPMXMgGCSutVk_m2fgLC&index=5";
 // const outputFilePath='Video.mp4'
